@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Integration Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+        }
+        @media (max-width: 768px) {
+            .calculator-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        label {
+            font-weight: 600;
+            color: #4a5568;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+        }
+        .result-box {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            border-radius: 4px;
+        }
+        .result-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #2b6cb0;
+            margin: 0 0 5px 0;
+        }
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c5282;
+            margin: 0;
+        }
+        .error {
+            color: #e53e3e;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .graph-container {
+            position: relative;
+            min-height: 300px;
+            width: 100%;
+        }
+        .math-hint {
+            font-size: 12px;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Definite Integration Calculator</h1>
+    
+    <div class="calculator-layout">
+        <div class="controls">
+            <div class="input-group">
+                <label for="function-select">Preset Functions</label>
+                <select id="function-select">
+                    <option value="x * x">f(x) = x²</option>
+                    <option value="Math.sin(x)">f(x) = sin(x)</option>
+                    <option value="Math.cos(x)">f(x) = cos(x)</option>
+                    <option value="Math.exp(x)">f(x) = e^x</option>
+                    <option value="1 / x">f(x) = 1/x</option>
+                    <option value="custom">Custom Function...</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="custom-input-group" style="display:none;">
+                <label for="custom-function">Custom f(x)</label>
+                <input type="text" id="custom-function" value="x * x" placeholder="e.g., Math.sqrt(x) + 2*x">
+                <span class="math-hint">Use JavaScript notation: Math.sin(x), Math.pow(x,3), Math.PI</span>
+                <div id="error-message" class="error">Invalid math expression.</div>
+            </div>
+
+            <div class="input-group">
+                <label for="limit-a">Lower Limit (a)</label>
+                <input type="number" id="limit-a" value="0" step="any">
+            </div>
+
+            <div class="input-group">
+                <label for="limit-b">Upper Limit (b)</label>
+                <input type="number" id="limit-
